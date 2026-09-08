@@ -43,6 +43,7 @@ To develop a secure wireless electronic notice board that receives messages thro
 
 🏗️ System Block Diagram
 
+```mermaid
 flowchart LR
     A[📱 Android Smartphone] -->|Bluetooth Message| B[📶 HC-05 Bluetooth]
     B -->|UART| C[🧠 LPC2148 ARM7]
@@ -55,11 +56,11 @@ flowchart LR
     G --> H
     H --> I[📢 Scrolling Notice Display]
     D -->|No| J[❌ Ignore Message]
-
----
+```
 
 🔄 Working Principle
 
+```mermaid
 flowchart TD
     A[Start] --> B[Initialize Peripherals]
     B --> C[Read Message from EEPROM]
@@ -78,7 +79,7 @@ flowchart TD
     J --> K[Store New Message in EEPROM]
     K --> L[Stop Previous Scrolling]
     L --> M[Display New Message]
-    M --> E
+    M --> E ``` 
 
 ---
 
@@ -100,6 +101,7 @@ Vector India
 
 Only the extracted authorized message is displayed on the dot-matrix LED.
 
+```mermaid
 flowchart LR
     A[Bluetooth Input] --> B["$$786Vector India$$"]
     B --> C[LPC2148]
@@ -107,8 +109,7 @@ flowchart LR
     D -->|YES| E["Extract: Vector India"]
     E --> F[EEPROM]
     F --> G[Dot Matrix Display]
-    D -->|NO| H[Reject Message]
-
+    D -->|NO| H[Reject Message] ```
 ---
 
 🧰 Hardware Requirements
@@ -178,6 +179,12 @@ Q6| ROW2
 Q7| ROW1
 
 These connections are specified in the project document.
+
+---
+
+
+### Actual Hardware Connections
+![Actual Hardware Connections](hardware_setup.jpeg)
 
 ---
 
@@ -293,11 +300,17 @@ The project documentation describes testing HC-05 using an Android terminal appl
 
 The system uses four 8×8 dot-matrix displays to create a larger scrolling display area.
 
+### Power ON
+![Power ON](power_on.jpeg)
+
 The display is controlled using:
 
 - 74HC164 → Column control
 - 74HC573 → Row control
 - LPC2148 → Main display control
+
+### Initial Display Output – HELP
+![HELP Output](help_output.jpeg)
 
 Example:
 
@@ -307,6 +320,9 @@ Example:
 +--------+--------+--------+--------+
 
         ← SCROLLING MESSAGE →
+
+### Scrolling Message Output
+![Scrolling Output](scrolling_output.jpeg)
 
 ---
 
@@ -429,6 +445,11 @@ flowchart TD
     N --> O[Display Notice]
 
 ---
+### Project Demo Video
+
+[▶️ Watch Project Demo](project_demo.mp4)
+
+---
 
 📁 Suggested GitHub Folder Structure
 
@@ -437,35 +458,30 @@ AIRNOTICE-BLUELINK-SECURE-WIRELESS-DISPLAY-SYSTEM/
 ├── README.md
 │
 ├── Source_Code/
-│   ├── projectmain.c
+│   ├── main.c
+│   ├── mainspi.c
 │   ├── 74LS164.c
 │   ├── 74LS164.h
+│   ├── defines.h
 │   ├── delay.c
 │   ├── delay.h
+│   ├── delays.c
+│   ├── delays.h
 │   ├── dml.c
 │   ├── dml.h
-│   └── defines.h
+│   ├── lcd.c
+│   ├── lcd.h
+│   ├── spi.c
+│   ├── spi.h
+│   ├── spi_defines.h
+│   ├── spi_eeprom.c
+│   ├── spi_eeprom.h
+│   ├── spi_eeprom_defines.h
+│   ├── UART_INT.c
+│   ├── types.h
+│   └── startup.s
 │
-├── EEPROM/
-│   ├── eeprom.c
-│   └── eeprom.h
-│
-├── UART/
-│   ├── uart.c
-│   └── uart.h
-│
-├── Documentation/
-│   └── Project_Documentation.pdf
-│
-├── Images/
-│   ├── block_diagram.png
-│   ├── circuit_connection.png
-│   └── project_output.png
-│
-└── Keil_Project/
-    └── Project_Files/
-
-«Note: Keep only the files that actually exist in your project folders. Do not create dummy files just to match this structure.»
+└── project_demo.mp4
 
 ---
 
@@ -546,7 +562,5 @@ The security passkey ensures that only authorized messages are displayed on the 
 🔄 Scrolling
        ↓
 📺 Dot Matrix Display
-
-AIRNOTICE BLUELINK – SECURE WIRELESS DISPLAY SYSTEM
 
 «Secure • Wireless • Flexible • Real-Time Electronic Notice Display»
