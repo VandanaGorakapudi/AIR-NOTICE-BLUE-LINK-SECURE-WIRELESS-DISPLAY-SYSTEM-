@@ -1,1 +1,552 @@
 # AIR-NOTICE-BLUE-LINK-SECURE-WIRELESS-DISPLAY-SYSTEM-
+📢 AIRNOTICE BLUELINK – SECURE WIRELESS DISPLAY SYSTEM
+
+📌 Project Overview
+
+AirNotice BlueLink – Secure Wireless Display System is a modern electronic notice board designed as an alternative to traditional notice boards.
+
+The system allows an authorized user to send a notice from an Android smartphone through Bluetooth. The HC-05 Bluetooth module receives the message and sends it to the LPC2148 ARM7 microcontroller.
+
+The microcontroller verifies the predefined security passkey, extracts the actual notice message, stores the message in AT25LC512 EEPROM, and displays it on four 8×8 dot-matrix LED displays with a scrolling effect.
+
+This system can be useful in:
+
+- 🏫 Schools and Colleges
+- 🏢 Offices
+- 🏭 Industries
+- 🏥 Public information areas
+- 📢 Announcement systems
+
+---
+
+🎯 Aim
+
+To develop a secure wireless electronic notice board that receives messages through Bluetooth, verifies an authorized passkey, stores the message in EEPROM, and displays the message on a scrolling dot-matrix LED display.
+
+---
+
+⭐ Key Features
+
+- 📱 Android smartphone-based message transmission
+- 📶 Wireless communication using Bluetooth
+- 🔐 Passkey-based message authentication
+- 🧠 LPC2148 ARM7 microcontroller
+- 💾 AT25LC512 EEPROM for message storage
+- 🔢 Four 8×8 dot-matrix LED displays
+- 🔄 Scrolling text display
+- ⚡ UART-based communication
+- 🔌 74HC164 shift registers for column control
+- 🔲 74HC573 latch for row control
+- ⏳ Displays "Waiting for message" when no message is stored
+
+---
+
+🏗️ System Block Diagram
+
+flowchart LR
+    A[📱 Android Smartphone] -->|Bluetooth Message| B[📶 HC-05 Bluetooth]
+    B -->|UART| C[🧠 LPC2148 ARM7]
+    C -->|Verify Passkey| D{🔐 Authorized?}
+    D -->|Yes| E[💾 AT25LC512 EEPROM]
+    E --> C
+    C --> F[74HC164 Shift Registers]
+    C --> G[74HC573 Latch]
+    F --> H[🔢 4 x 8×8 Dot Matrix]
+    G --> H
+    H --> I[📢 Scrolling Notice Display]
+    D -->|No| J[❌ Ignore Message]
+
+---
+
+🔄 Working Principle
+
+flowchart TD
+    A[Start] --> B[Initialize Peripherals]
+    B --> C[Read Message from EEPROM]
+    C --> D[Display Stored Message]
+    D --> E{New Bluetooth Message?}
+
+    E -->|No| D
+    E -->|Yes| F[Receive Message through UART]
+    F --> G[Check Security Passkey]
+    G --> H{Passkey Valid?}
+
+    H -->|No| I[Reject Message]
+    I --> E
+
+    H -->|Yes| J[Extract Notice Text]
+    J --> K[Store New Message in EEPROM]
+    K --> L[Stop Previous Scrolling]
+    L --> M[Display New Message]
+    M --> E
+
+---
+
+🔐 Security Mechanism
+
+The system does not directly display every message received through Bluetooth.
+
+The sender must provide a predefined passkey/security code along with the message.
+
+Example
+
+Input received from Bluetooth:
+
+$$786Vector India$$
+
+The LPC2148 verifies the passkey and extracts:
+
+Vector India
+
+Only the extracted authorized message is displayed on the dot-matrix LED.
+
+flowchart LR
+    A[Bluetooth Input] --> B["$$786Vector India$$"]
+    B --> C[LPC2148]
+    C --> D{Passkey Valid?}
+    D -->|YES| E["Extract: Vector India"]
+    E --> F[EEPROM]
+    F --> G[Dot Matrix Display]
+    D -->|NO| H[Reject Message]
+
+---
+
+🧰 Hardware Requirements
+
+Component| Purpose
+LPC2148| Main ARM7 microcontroller
+4 × 8×8 Dot Matrix Displays| Displays scrolling notice
+74HC164| Serial-in parallel-out shift register for column control
+74HC573| Octal D-type latch for row control
+AT25LC512 EEPROM| Stores notice messages
+HC-05 Bluetooth Module| Wireless communication
+DB-9 Cable / USB-UART Converter| UART/PC interface
+
+The hardware components are specified in the project documentation.
+
+---
+
+💻 Software Requirements
+
+- Embedded C
+- Keil C Compiler
+- Flash Magic
+- Android Bluetooth Terminal application
+
+The original project documentation specifies Keil C Compiler, Embedded C and Flash Magic.
+
+---
+
+🔌 Hardware Connections
+
+74HC164 – Dot Matrix Column Control
+
+The four dot-matrix displays use separate 74HC164 control signals.
+
+Display| DSA| CP
+Display 1| P0.8| P0.9
+Display 2| P0.10| P0.11
+Display 3| P0.12| P0.13
+Display 4| P0.14| P0.15
+
+Each 74HC164 provides Q0–Q7 connections to the corresponding eight columns of the dot-matrix display.
+
+---
+
+74HC573 – Dot Matrix Row Control
+
+74HC573 Pin| LPC2148
+D0| P0.0
+D1| P0.1
+D2| P0.2
+D3| P0.3
+D4| P0.4
+D5| P0.5
+D6| P0.6
+D7| P0.7
+
+The latch outputs are connected to the dot-matrix rows:
+
+74HC573 Output| Dot Matrix
+Q0| ROW8
+Q1| ROW7
+Q2| ROW6
+Q3| ROW5
+Q4| ROW4
+Q5| ROW3
+Q6| ROW2
+Q7| ROW1
+
+These connections are specified in the project document.
+
+---
+
+🧩 System Architecture
+
+flowchart TB
+    subgraph INPUT["📱 INPUT"]
+        A[Android Phone]
+        B[HC-05 Bluetooth]
+    end
+
+    subgraph CONTROL["🧠 CONTROL"]
+        C[LPC2148 ARM7]
+        D[UART]
+        E[Security Verification]
+    end
+
+    subgraph STORAGE["💾 STORAGE"]
+        F[AT25LC512 EEPROM]
+    end
+
+    subgraph DISPLAY["📺 DISPLAY"]
+        G[74HC573 Latch]
+        H[74HC164 Shift Registers]
+        I[4 × 8×8 Dot Matrix]
+    end
+
+    A --> B
+    B --> D
+    D --> C
+    C --> E
+    E --> F
+    F --> C
+    C --> G
+    C --> H
+    G --> I
+    H --> I
+
+---
+
+📲 Message Communication
+
+The communication process is:
+
+Android Phone
+      ↓
+HC-05 Bluetooth
+      ↓
+UART
+      ↓
+LPC2148
+      ↓
+Security Verification
+      ↓
+AT25LC512 EEPROM
+      ↓
+LPC2148
+      ↓
+74HC573 + 74HC164
+      ↓
+4 × 8×8 Dot Matrix
+      ↓
+Scrolling Notice
+
+---
+
+💾 EEPROM Operation
+
+The AT25LC512 EEPROM is used to store the latest notice message.
+
+The project implementation includes:
+
+1. Writing bytes to EEPROM
+2. Reading bytes from EEPROM
+3. Storing a user-defined string
+4. Reading the stored string
+5. Displaying the stored string on the dot-matrix LED
+
+The project documentation specifies byte/page write and read operations for EEPROM.
+
+---
+
+📡 Bluetooth Communication
+
+The HC-05 Bluetooth module is used for wireless communication between the Android phone and LPC2148.
+
+Communication Flow
+
+sequenceDiagram
+    participant User as 📱 Android User
+    participant BT as 📶 HC-05
+    participant MCU as 🧠 LPC2148
+    participant EEPROM as 💾 EEPROM
+    participant LED as 📺 Dot Matrix
+
+    User->>BT: Send secured message
+    BT->>MCU: UART data
+    MCU->>MCU: Verify passkey
+
+    alt Valid passkey
+        MCU->>EEPROM: Store new message
+        EEPROM-->>MCU: Message stored
+        MCU->>LED: Display & scroll message
+    else Invalid passkey
+        MCU-->>BT: Reject message
+    end
+
+The project documentation describes testing HC-05 using an Android terminal application and pairing the phone with the Bluetooth module.
+
+---
+
+📺 Display Operation
+
+The system uses four 8×8 dot-matrix displays to create a larger scrolling display area.
+
+The display is controlled using:
+
+- 74HC164 → Column control
+- 74HC573 → Row control
+- LPC2148 → Main display control
+
+Example:
+
++--------+--------+--------+--------+
+|  8×8   |  8×8   |  8×8   |  8×8   |
+| Matrix | Matrix | Matrix | Matrix |
++--------+--------+--------+--------+
+
+        ← SCROLLING MESSAGE →
+
+---
+
+🔁 Message Update Logic
+
+The LPC2148 continuously checks the EEPROM for the latest stored message.
+
+If there is no new Bluetooth message, the existing message continues scrolling.
+
+When a new authorized message is received:
+
+New Message Received
+        ↓
+Verify Passkey
+        ↓
+Extract Message
+        ↓
+Store in EEPROM
+        ↓
+Stop Previous Message
+        ↓
+Display New Message
+        ↓
+Continue Scrolling
+
+This update behavior follows the implementation sequence described in the project document.
+
+---
+
+⏳ Default Display
+
+If there is no message stored in EEPROM, the system displays:
+
+WAITING FOR MESSAGE
+
+A message-status memory location is used to identify whether a valid message is available.
+
+---
+
+🧪 Implementation Steps
+
+The project was designed to be implemented in stages:
+
+Step 1 – Single Character
+
+Display one character on a single dot-matrix LED.
+
+Step 2 – Four Character Display
+
+Display a four-character string.
+
+Example:
+
+HELP
+
+Step 3 – Scrolling Text
+
+Display a string containing more than 10 characters.
+
+Example:
+
+PROJECT SUCCESSFULLY COMPLETED
+
+Step 4 – EEPROM
+
+Write and read data from EEPROM.
+
+Step 5 – EEPROM String
+
+Store and retrieve a user-defined string.
+
+Step 6 – UART
+
+Test:
+
+- Character transmission
+- String transmission
+- String reception
+- UART interrupt
+
+Step 7 – Bluetooth
+
+Pair the Android phone with HC-05 and send data wirelessly.
+
+Step 8 – Complete Integration
+
+Integrate:
+
+Bluetooth
+   +
+UART
+   +
+Security
+   +
+EEPROM
+   +
+Dot Matrix
+
+The staged implementation sequence is based directly on the supplied project documentation.
+
+---
+
+🛠️ Project Workflow
+
+flowchart TD
+    A[Android Application] --> B[HC-05 Bluetooth]
+    B --> C[UART Communication]
+    C --> D[LPC2148]
+    D --> E[Security Passkey]
+    E --> F{Valid?}
+    F -->|No| G[Message Rejected]
+    F -->|Yes| H[Extract Notice]
+    H --> I[AT25LC512 EEPROM]
+    I --> J[Read Latest Message]
+    J --> K[Scrolling Algorithm]
+    K --> L[74HC164]
+    K --> M[74HC573]
+    L --> N[4 × 8×8 Dot Matrix]
+    M --> N
+    N --> O[Display Notice]
+
+---
+
+📁 Suggested GitHub Folder Structure
+
+AIRNOTICE-BLUELINK-SECURE-WIRELESS-DISPLAY-SYSTEM/
+│
+├── README.md
+│
+├── Source_Code/
+│   ├── projectmain.c
+│   ├── 74LS164.c
+│   ├── 74LS164.h
+│   ├── delay.c
+│   ├── delay.h
+│   ├── dml.c
+│   ├── dml.h
+│   └── defines.h
+│
+├── EEPROM/
+│   ├── eeprom.c
+│   └── eeprom.h
+│
+├── UART/
+│   ├── uart.c
+│   └── uart.h
+│
+├── Documentation/
+│   └── Project_Documentation.pdf
+│
+├── Images/
+│   ├── block_diagram.png
+│   ├── circuit_connection.png
+│   └── project_output.png
+│
+└── Keil_Project/
+    └── Project_Files/
+
+«Note: Keep only the files that actually exist in your project folders. Do not create dummy files just to match this structure.»
+
+---
+
+📌 Applications
+
+- 🏫 College Notice Boards
+- 🏢 Office Announcements
+- 🏭 Industrial Information Display
+- 🏥 Hospital Announcements
+- 🚉 Public Information Systems
+- 📢 Event Announcements
+- 🏫 School Communication Systems
+
+---
+
+🚀 Future Enhancements
+
+Possible future improvements include:
+
+- Wi-Fi-based communication
+- IoT cloud integration
+- Web-based notice management
+- Mobile application with login authentication
+- Multiple display-board support
+- Remote monitoring
+- Admin dashboard
+- Real-time message scheduling
+
+---
+
+👩‍💻 Technologies Used
+
+Microcontroller : LPC2148 ARM7
+Programming     : Embedded C
+Compiler        : Keil C
+Communication   : Bluetooth / UART
+Bluetooth       : HC-05
+Memory          : AT25LC512 EEPROM
+Display         : 8×8 Dot Matrix LED
+Shift Register  : 74HC164
+Latch           : 74HC573
+Programming Tool: Flash Magic
+
+---
+
+🎓 Project Type
+
+Academic / Embedded Systems Project
+
+Domain
+
+Embedded Systems | ARM7 | Bluetooth Communication | LED Display
+
+---
+
+📜 Conclusion
+
+AirNotice BlueLink provides a secure and convenient method for displaying electronic notices wirelessly.
+
+By combining LPC2148, HC-05 Bluetooth, UART, AT25LC512 EEPROM, 74HC164, 74HC573 and dot-matrix LED displays, the system can receive, authenticate, store and display messages without requiring a traditional manually updated notice board.
+
+The security passkey ensures that only authorized messages are displayed on the electronic notice board.
+
+---
+
+⭐ Project Highlights
+
+📱 Wireless Message
+       ↓
+📶 Bluetooth
+       ↓
+🧠 LPC2148
+       ↓
+🔐 Security Verification
+       ↓
+💾 EEPROM Storage
+       ↓
+🔄 Scrolling
+       ↓
+📺 Dot Matrix Display
+
+AIRNOTICE BLUELINK – SECURE WIRELESS DISPLAY SYSTEM
+
+«Secure • Wireless • Flexible • Real-Time Electronic Notice Display»
