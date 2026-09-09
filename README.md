@@ -93,7 +93,7 @@ Example
 
 Input received from Bluetooth:
 
-$$786Vector India$$
+$$789Vector India$$
 
 The LPC2148 verifies the passkey and extracts:
 
@@ -103,7 +103,7 @@ Only the extracted authorized message is displayed on the dot-matrix LED.
 
 ```mermaid
 flowchart LR
-    A[Bluetooth Input] --> B["$$786Vector India$$"]
+    A[Bluetooth Input] -->B["$$789Vector India$$"]
     B --> C[LPC2148]
     C --> D{Passkey Valid?}
     D -->|YES| E["Extract: Vector India"]
@@ -138,47 +138,48 @@ The original project documentation specifies Keil C Compiler, Embedded C and Fla
 
 🔌 Hardware Connections
 
-74HC164 – Dot Matrix Column Control
+### LPC2148 UART / Bluetooth Connection
 
-The four dot-matrix displays use separate 74HC164 control signals.
-
-Display| DSA| CP
-Display 1| P0.8| P0.9
-Display 2| P0.10| P0.11
-Display 3| P0.12| P0.13
-Display 4| P0.14| P0.15
-
-Each 74HC164 provides Q0–Q7 connections to the corresponding eight columns of the dot-matrix display.
-
+| LPC2148 Pin | Connected Module |
+|---|---|
+| P0.0 / TxD0 | HC-05 Rx |
+| P0.1 / RxD0 | HC-05 Tx |
 ---
 
-74HC573 – Dot Matrix Row Control
+### 74HC573 – Dot Matrix Row Control
 
-74HC573 Pin| LPC2148
-D0| P0.0
-D1| P0.1
-D2| P0.2
-D3| P0.3
-D4| P0.4
-D5| P0.5
-D6| P0.6
-D7| P0.7
+The 74HC573 latch is used to control the dot-matrix row data.
 
-The latch outputs are connected to the dot-matrix rows:
+| 74HC573 Data Pin | LPC2148 |
+|---|---|
+| D0 | P0.16 |
+| D1 | P0.17 |
+| D2 | P0.18 |
+| D3 | P0.19 |
+| D4 | P0.20 |
+| D5 | P0.21 |
+| D6 | P0.22 |
+| D7 | P0.23 |
 
-74HC573 Output| Dot Matrix
-Q0| ROW8
-Q1| ROW7
-Q2| ROW6
-Q3| ROW5
-Q4| ROW4
-Q5| ROW3
-Q6| ROW2
-Q7| ROW1
-
-These connections are specified in the project document.
-
+The 74HC573 outputs are connected to the row lines of the dot-matrix displays.
 ---
+### AT25LC512 EEPROM – SPI Connection
+
+| AT25LC512 Signal | LPC2148 |
+|---|---|
+| SCK | P0.4 |
+| MISO | P0.5 |
+| MOSI | P0.6 |
+| CS | P0.7 |
+---
+### 74HC164 – Dot Matrix Column Control
+
+| Display | SIN Pin | CP Pin |
+|---|---|---|
+| Display 1 | P0.8 | P0.9 |
+| Display 2 | P0.10 | P0.11 |
+| Display 3 | P0.12 | P0.13 |
+| Display 4 | P0.14 | P0.15 |
 
 
 ### Actual Hardware Connections
@@ -264,6 +265,17 @@ The project implementation includes:
 5. Displaying the stored string on the dot-matrix LED
 
 The project documentation specifies byte/page write and read operations for EEPROM.
+### EEPROM Write and Read Operations
+
+The AT25LC512 EEPROM is accessed through SPI communication.
+
+The project implementation supports:
+
+- Byte write using `ByteWrite_25LC512()`
+- Byte read using `ByteRead_25LC512()`
+- Page write using `PageWrite_25LC512()`
+- Write Enable (WREN) before write operations
+- Write Disable (WRDI) after write operations
 
 ---
 
