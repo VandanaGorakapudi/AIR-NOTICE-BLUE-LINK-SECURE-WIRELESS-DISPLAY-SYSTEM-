@@ -79,8 +79,8 @@ flowchart TD
     J --> K[Store New Message in EEPROM]
     K --> L[Stop Previous Scrolling]
     L --> M[Display New Message]
-    M --> E ``` 
-
+    M --> E
+            ```
 ---
 
 🔐 Security Mechanism
@@ -109,7 +109,8 @@ flowchart LR
     D -->|YES| E["Extract: Vector India"]
     E --> F[EEPROM]
     F --> G[Dot Matrix Display]
-    D -->|NO| H[Reject Message] ```
+    D -->|NO| H[Reject Message]
+```
 ---
 
 🧰 Hardware Requirements
