@@ -115,16 +115,15 @@ flowchart LR
 
 🧰 Hardware Requirements
 
-| Component                       | Purpose                                                  |
-| ------------------------------- | -------------------------------------------------------- |
-| LPC2148                         | Main ARM7 microcontroller                                |
-| 4 × 8×8 Dot Matrix Displays     | Displays scrolling notice                                |
-| 74HC164                         | Serial-in parallel-out shift register for column control |
-| 74HC573                         | Octal D-type latch for row control                       |
-| AT25LC512 EEPROM                | Stores notice messages                                   |
-| HC-05 Bluetooth Module          | Wireless communication                                   |
-| DB-9 Cable / USB-UART Converter | UART/PC interface                                        |
-
+| Component | Purpose |
+|---|---|
+| LPC2148 | Main ARM7 microcontroller |
+| 4 × 8×8 Dot Matrix Displays | Displays scrolling notice |
+| 74HC164 | Serial-in parallel-out shift register for column control |
+| 74HC573 | Octal D-type latch for row control |
+| AT25LC512 EEPROM | Stores notice messages |
+| HC-05 Bluetooth Module | Wireless communication |
+| DB-9 Cable / USB-UART Converter | UART/PC interface |
 💻 Software Requirements
 
 - Embedded C
@@ -230,26 +229,18 @@ flowchart TB
 
 The communication process is:
 
-Android Phone
-      ↓
-HC-05 Bluetooth
-      ↓
-UART
-      ↓
-LPC2148
-      ↓
-Security Verification
-      ↓
-AT25LC512 EEPROM
-      ↓
-LPC2148
-      ↓
-74HC573 + 74HC164
-      ↓
-4 × 8×8 Dot Matrix
-      ↓
-Scrolling Notice
-
+```mermaid
+flowchart TD
+    A[📱 Android Phone] --> B[📶 HC-05 Bluetooth]
+    B --> C[UART]
+    C --> D[🧠 LPC2148]
+    D --> E[🔐 Security Verification]
+    E --> F[💾 AT25LC512 EEPROM]
+    F --> D
+    D --> G[74HC573 + 74HC164]
+    G --> H[4 × 8×8 Dot Matrix]
+    H --> I[📢 Scrolling Notice]
+```
 ---
 
 💾 EEPROM Operation
@@ -338,28 +329,33 @@ Example:
 
 🔁 Message Update Logic
 
-The LPC2148 continuously checks the EEPROM for the latest stored message.
-
-If there is no new Bluetooth message, the existing message continues scrolling.
+The LPC2148 continuously checks for a new Bluetooth message.
 
 When a new authorized message is received:
 
-New Message Received
-        ↓
-Verify Passkey
-        ↓
-Extract Message
-        ↓
-Store in EEPROM
-        ↓
-Stop Previous Message
-        ↓
-Display New Message
-        ↓
-Continue Scrolling
+```mermaid
+flowchart TD
+    A[📩 New Message Received] --> B[🔐 Verify Passkey]
+    B --> C[✂️ Extract Message]
+    C --> D[💾 Store in EEPROM]
+    D --> E[⏹️ Stop Previous Message]
+    E --> F[📺 Display New Message]
+    F --> G[🔄 Continue Scrolling]
+```
+---
+### Step 8 – Complete Integration
 
-This update behavior follows the implementation sequence described in the project document.
+The final system integrates all major modules:
 
+```mermaid
+flowchart LR
+    A[📱 Bluetooth] --> B[⚡ UART]
+    B --> C[🧠 LPC2148]
+    C --> D[🔐 Security]
+    D --> E[💾 EEPROM]
+    E --> C
+    C --> F[📺 Dot Matrix]
+```
 ---
 
 ⏳ Default Display
@@ -417,19 +413,6 @@ Step 7 – Bluetooth
 
 Pair the Android phone with HC-05 and send data wirelessly.
 
-Step 8 – Complete Integration
-
-Integrate:
-
-Bluetooth
-   +
-UART
-   +
-Security
-   +
-EEPROM
-   +
-Dot Matrix
 
 The staged implementation sequence is based directly on the supplied project documentation.
 
