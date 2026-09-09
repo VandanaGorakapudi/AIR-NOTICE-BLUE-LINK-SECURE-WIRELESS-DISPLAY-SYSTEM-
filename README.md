@@ -124,6 +124,7 @@ flowchart LR
 | AT25LC512 EEPROM | Stores notice messages |
 | HC-05 Bluetooth Module | Wireless communication |
 | DB-9 Cable / USB-UART Converter | UART/PC interface |
+
 💻 Software Requirements
 
 - Embedded C
@@ -315,12 +316,15 @@ The display is controlled using:
 
 Example:
 
+```text
 +--------+--------+--------+--------+
 |  8×8   |  8×8   |  8×8   |  8×8   |
 | Matrix | Matrix | Matrix | Matrix |
 +--------+--------+--------+--------+
 
         ← SCROLLING MESSAGE →
+
+```
 
 ### Scrolling Message Output
 ![Scrolling Output](scrolling_output.jpeg)
@@ -447,6 +451,7 @@ flowchart TD
 
 📁 Suggested GitHub Folder Structure
 
+```text
 AIRNOTICE-BLUELINK-SECURE-WIRELESS-DISPLAY-SYSTEM/
 │
 ├── README.md
@@ -476,7 +481,7 @@ AIRNOTICE-BLUELINK-SECURE-WIRELESS-DISPLAY-SYSTEM/
 │   └── startup.s
 │
 └── project_demo.mp4
-
+```
 ---
 
 📌 Applications
@@ -508,6 +513,7 @@ Possible future improvements include:
 
 👩‍💻 Technologies Used
 
+```text
 Microcontroller : LPC2148 ARM7
 Programming     : Embedded C
 Compiler        : Keil C
@@ -518,7 +524,7 @@ Display         : 8×8 Dot Matrix LED
 Shift Register  : 74HC164
 Latch           : 74HC573
 Programming Tool: Flash Magic
-
+```
 ---
 
 🎓 Project Type
@@ -543,6 +549,7 @@ The security passkey ensures that only authorized messages are displayed on the 
 
 ⭐ Project Highlights
 
+```text
 📱 Wireless Message
        ↓
 📶 Bluetooth
@@ -556,5 +563,6 @@ The security passkey ensures that only authorized messages are displayed on the 
 🔄 Scrolling
        ↓
 📺 Dot Matrix Display
+```
 
 «Secure • Wireless • Flexible • Real-Time Electronic Notice Display»
