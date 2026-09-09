@@ -115,18 +115,15 @@ flowchart LR
 
 🧰 Hardware Requirements
 
-Component| Purpose
-LPC2148| Main ARM7 microcontroller
-4 × 8×8 Dot Matrix Displays| Displays scrolling notice
-74HC164| Serial-in parallel-out shift register for column control
-74HC573| Octal D-type latch for row control
-AT25LC512 EEPROM| Stores notice messages
-HC-05 Bluetooth Module| Wireless communication
-DB-9 Cable / USB-UART Converter| UART/PC interface
-
-The hardware components are specified in the project documentation.
-
----
+| Component                       | Purpose                                                  |
+| ------------------------------- | -------------------------------------------------------- |
+| LPC2148                         | Main ARM7 microcontroller                                |
+| 4 × 8×8 Dot Matrix Displays     | Displays scrolling notice                                |
+| 74HC164                         | Serial-in parallel-out shift register for column control |
+| 74HC573                         | Octal D-type latch for row control                       |
+| AT25LC512 EEPROM                | Stores notice messages                                   |
+| HC-05 Bluetooth Module          | Wireless communication                                   |
+| DB-9 Cable / USB-UART Converter | UART/PC interface                                        |
 
 💻 Software Requirements
 
