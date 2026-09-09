@@ -80,7 +80,7 @@ flowchart TD
     K --> L[Stop Previous Scrolling]
     L --> M[Display New Message]
     M --> E
-            ```
+```
 ---
 
 🔐 Security Mechanism
@@ -191,6 +191,7 @@ These connections are specified in the project document.
 
 🧩 System Architecture
 
+```mermaid
 flowchart TB
     subgraph INPUT["📱 INPUT"]
         A[Android Phone]
@@ -223,8 +224,9 @@ flowchart TB
     C --> H
     G --> I
     H --> I
-
+```
 ---
+
 
 📲 Message Communication
 
@@ -274,6 +276,7 @@ The HC-05 Bluetooth module is used for wireless communication between the Androi
 
 Communication Flow
 
+```mermaid
 sequenceDiagram
     participant User as 📱 Android User
     participant BT as 📶 HC-05
@@ -292,10 +295,7 @@ sequenceDiagram
     else Invalid passkey
         MCU-->>BT: Reject message
     end
-
-The project documentation describes testing HC-05 using an Android terminal application and pairing the phone with the Bluetooth module.
-
----
+```
 
 📺 Display Operation
 
@@ -428,6 +428,7 @@ The staged implementation sequence is based directly on the supplied project doc
 
 🛠️ Project Workflow
 
+```mermaid
 flowchart TD
     A[Android Application] --> B[HC-05 Bluetooth]
     B --> C[UART Communication]
@@ -444,7 +445,7 @@ flowchart TD
     L --> N[4 × 8×8 Dot Matrix]
     M --> N
     N --> O[Display Notice]
-
+```
 ---
 ### Project Demo Video
 
