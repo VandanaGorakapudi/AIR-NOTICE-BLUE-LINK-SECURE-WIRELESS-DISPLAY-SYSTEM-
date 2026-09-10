@@ -43,9 +43,7 @@ To develop a secure wireless electronic notice board that receives messages thro
 
 🏗️ System Block Diagram
 
-## Block Diagram
-
-![AIRNOTICE BLUELINK Block Diagram](AirNotice_Bluelink_Block_Diagram.png)
+![AIRNOTICE BLUELINK Block Diagram](AirNotice_Bluelink_Block_Diagram.png.png)
 
 🔄 Working Principle
 
