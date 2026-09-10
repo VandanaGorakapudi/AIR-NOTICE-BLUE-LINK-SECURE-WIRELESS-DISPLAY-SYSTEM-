@@ -43,20 +43,7 @@ To develop a secure wireless electronic notice board that receives messages thro
 
 🏗️ System Block Diagram
 
-```mermaid
-flowchart LR
-    A[📱 Android Smartphone] -->|Bluetooth Message| B[📶 HC-05 Bluetooth]
-    B -->|UART| C[🧠 LPC2148 ARM7]
-    C -->|Verify Passkey| D{🔐 Authorized?}
-    D -->|Yes| E[💾 AT25LC512 EEPROM]
-    E --> C
-    C --> F[74HC164 Shift Registers]
-    C --> G[74HC573 Latch]
-    F --> H[🔢 4 x 8×8 Dot Matrix]
-    G --> H
-    H --> I[📢 Scrolling Notice Display]
-    D -->|No| J[❌ Ignore Message]
-```
+![AirNotice BlueLink Block Diagram](block_diagram.png)
 
 🔄 Working Principle
 
